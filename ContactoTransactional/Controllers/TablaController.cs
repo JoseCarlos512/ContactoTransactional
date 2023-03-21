@@ -11,6 +11,7 @@ namespace ContactoTransactional.Controllers
     public class TablaController : Controller
     {
         // GET: Tabla
+      
         public ActionResult Index() {
 
             List<ListTablaViewModel> lst;
