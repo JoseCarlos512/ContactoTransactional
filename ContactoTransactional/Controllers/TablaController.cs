@@ -11,7 +11,7 @@ namespace ContactoTransactional.Controllers
     public class TablaController : Controller
     {
         // GET: Tabla
-      
+        [HttpGet]
         public ActionResult Index() {
 
             List<ListTablaViewModel> lst;
@@ -43,11 +43,9 @@ namespace ContactoTransactional.Controllers
 
             try
             {
-                if (ModelState.IsValid)
-                {
+                if (ModelState.IsValid) {
 
-                    using (DBCRUDCOREEntitie db = new DBCRUDCOREEntitie())
-                    {
+                    using (DBCRUDCOREEntitie db = new DBCRUDCOREEntitie()) {
 
                         var oTabla = new tabla();
                         oTabla.correo = model.Correo;
@@ -57,12 +55,13 @@ namespace ContactoTransactional.Controllers
                         db.tabla.Add(oTabla);
                         db.SaveChanges();
                     }
+
+                    return Redirect("/Tabla/");
                 }
 
-                return Redirect("Tabla/");
-            }
-            catch (Exception ex)
-            {
+                return View(model);
+
+            } catch (Exception ex) {
                 throw new Exception(ex.Message);
             }
 

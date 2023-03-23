@@ -22,6 +22,7 @@ namespace ContactoTransactional.Models.ViewModels
         public string Correo { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         [Display(Name = "Fecha de nacimiento")]
         public DateTime FechaNcimiento { get; set; }
 
