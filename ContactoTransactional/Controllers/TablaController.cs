@@ -73,8 +73,8 @@ namespace ContactoTransactional.Controllers
             using (DBCRUDCOREEntitie db = new DBCRUDCOREEntitie()) {
                 var oTabla = db.tabla.Find(Id);
                 model.Nombre = oTabla.nombre;
-                model.Correo= oTabla.correo;
-                model.FechaNcimiento = (DateTime)oTabla.fecha_nacimiento;
+                model.Correo = oTabla.correo;
+                //model.FechaNcimiento = (Date)oTabla.fecha_nacimiento;
                 model.Id = oTabla.id;
             }
             return View(model);
@@ -112,6 +112,18 @@ namespace ContactoTransactional.Controllers
                 throw new Exception(ex.Message);
             }
 
+        }
+
+        [HttpGet]
+        public ActionResult Eliminar(int Id)
+        {
+            using (DBCRUDCOREEntitie db = new DBCRUDCOREEntitie())
+            {
+                var oTabla = db.tabla.Find(Id);
+                db.tabla.Remove(oTabla);
+                db.SaveChanges();
+            }
+            return Redirect("/Tabla/");
         }
     }
 }
