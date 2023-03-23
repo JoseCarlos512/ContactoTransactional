@@ -38,8 +38,7 @@ namespace ContactoTransactional.Controllers
         }
 
         [HttpPost]
-        public ActionResult Nuevo(TablaViewModel model)
-        {
+        public ActionResult Nuevo(TablaViewModel model) {
 
             try
             {
@@ -62,6 +61,54 @@ namespace ContactoTransactional.Controllers
                 return View(model);
 
             } catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+
+        }
+
+
+        public ActionResult Editar(int Id) {
+
+            TablaViewModel model = new TablaViewModel();
+            using (DBCRUDCOREEntitie db = new DBCRUDCOREEntitie()) {
+                var oTabla = db.tabla.Find(Id);
+                model.Nombre = oTabla.nombre;
+                model.Correo= oTabla.correo;
+                model.FechaNcimiento = (DateTime)oTabla.fecha_nacimiento;
+                model.Id = oTabla.id;
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Editar(TablaViewModel model)
+        {
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+
+                    using (DBCRUDCOREEntitie db = new DBCRUDCOREEntitie())
+                    {
+
+                        var oTabla = db.tabla.Find(model.Id);
+                        oTabla.correo = model.Correo;
+                        oTabla.fecha_nacimiento = model.FechaNcimiento;
+                        oTabla.nombre = model.Nombre;
+
+                        db.Entry(oTabla).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+                    }
+
+                    return Redirect("/Tabla/");
+                }
+
+                return View(model);
+
+            }
+            catch (Exception ex)
+            {
                 throw new Exception(ex.Message);
             }
 
